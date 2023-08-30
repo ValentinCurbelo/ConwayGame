@@ -11,7 +11,7 @@ namespace Conwaygame
 
             while (true)
             {
-                PrintTablero.ImprimirTablero(gameBoard, 10);
+                PrintTablero.ImprimirTablero(gameBoard, 10);    //El segundo parametro es la cantidad de generaciones. :)
                 gameBoard = Logica.CalcularSiguienteGeneracion(gameBoard);
             }
         }
