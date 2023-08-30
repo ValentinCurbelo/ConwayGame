@@ -1,59 +1,61 @@
-using System; 
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System;
 
-
-namespace conway.equipo20;
-
-public class Logica
+namespace Conwaygame
 {
-    bool[,] gameBoard = /* contenido del tablero */;
-    int boardWidth = gameBoard.GetLength(0);
-    int boardHeight = gameBoard.GetLength(1);
-
-    bool[,] cloneboard = new bool[boardWidth, boardHeight];
-    for (int x = 0; x < boardWidth; x++)
+    public class Logica
     {
-        for (int y = 0; y < boardHeight; y++)
+        public static bool[,] CalcularSiguienteGeneracion(bool[,] gameBoard)
         {
-            int aliveNeighbors = 0;
-            for (int i = x-1; i<=x+1;i++)
+            int boardWidth = gameBoard.GetLength(0);
+            int boardHeight = gameBoard.GetLength(1);
+            bool[,] cloneBoard = new bool[boardWidth, boardHeight];
+
+            for (int x = 0; x < boardWidth; x++)
             {
-                for (int j = y-1;j<=y+1;j++)
+                for (int y = 0; y < boardHeight; y++)
                 {
-                    if(i>=0 && i<boardWidth && j>=0 && j < boardHeight && gameBoard[i,j])
+                    int aliveNeighbors = 0;
+                    for (int i = x - 1; i <= x + 1; i++)
                     {
-                        aliveNeighbors++;
+                        for (int j = y - 1; j <= y + 1; j++)
+                        {
+                            if (i >= 0 && i < boardWidth && j >= 0 && j < boardHeight && gameBoard[i, j])
+                            {
+                                aliveNeighbors++;
+                            }
+                        }
+                    }
+                    if (gameBoard[x, y])
+                    {
+                        aliveNeighbors--;
+                    }
+                    if (gameBoard[x, y] && aliveNeighbors < 2)
+                    {
+                        // Celula muere por baja población
+                        cloneBoard[x, y] = false;
+                    }
+                    else if (gameBoard[x, y] && aliveNeighbors > 3)
+                    {
+                        // Celula muere por sobrepoblación
+                        cloneBoard[x, y] = false;
+                    }
+                    else if (!gameBoard[x, y] && aliveNeighbors == 3)
+                    {
+                        // Celula nace por reproducción
+                        cloneBoard[x, y] = true;
+                    }
+                    else
+                    {
+                        // Celula mantiene el estado que tenía
+                        cloneBoard[x, y] = gameBoard[x, y];
                     }
                 }
             }
-            if(gameBoard[x,y])
-            {
-                aliveNeighbors--;
-            }
-            if (gameBoard[x,y] && aliveNeighbors < 2)
-            {
-                //Celula muere por baja población
-                cloneboard[x,y] = false;
-            }
-            else if (gameBoard[x,y] && aliveNeighbors > 3)
-            {
-                //Celula muere por sobrepoblación
-                cloneboard[x,y] = false;
-            }
-            else if (!gameBoard[x,y] && aliveNeighbors == 3)
-            {
-                //Celula nace por reproducción
-                cloneboard[x,y] = true;
-            }
-            else
-            {
-                //Celula mantiene el estado que tenía
-                cloneboard[x,y] = gameBoard[x,y];
-            }
+
+            // Actualizar la matriz original gameBoard con los valores de cloneBoard
+            gameBoard = cloneBoard;
+
+            return gameBoard; // Devuelve la matriz actualizada
         }
     }
-    gameBoard = cloneboard;
 }

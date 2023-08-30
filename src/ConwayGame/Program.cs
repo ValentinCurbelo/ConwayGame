@@ -1,15 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace conway.equipo20;
-
-class Program
+namespace Conwaygame
 {
-    static void Main(string[] args)
+   public class Program
     {
-        Console.WriteLine("");
+       public static void Main(string[] args)
+        {
+            string filePath = @"C:\Users\rodri\OneDrive\Escritorio\Coding\Visual studio\Programacion 2 c#\ConwayGame\src\Library\archivo.txt"; 
+            bool[,] gameBoard = LeerArchivo.LeerTablero(filePath);
+
+            while (true)
+            {
+                PrintTablero.ImprimirTablero(gameBoard, 10);
+                gameBoard = Logica.CalcularSiguienteGeneracion(gameBoard);
+            }
+        }
     }
 }

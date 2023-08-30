@@ -1,25 +1,25 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 
-namespace conway.equipo20;
-
-public class Print_tablero
+namespace Conwaygame
 {
-    bool[,] b //variable que representa el tablero
-    int width //variabe que representa el ancho del tablero
-    int height //variabe que representa altura del tablero
-    while (true)
+    public class PrintTablero
+    {
+        public static void ImprimirTablero(bool[,] board, int maxGenerations)
         {
-            Console.Clear();
-            StringBuilder s = new StringBuilder();
-            for (int y = 0; y<height;y++)
-                 {
-                     for (int x = 0; x<width; x++)
+            int width = board.GetLength(0);
+            int height = board.GetLength(1);
+            
+            for (int generation = 0; generation < maxGenerations; generation++)
+            {
+                Console.Clear();
+                StringBuilder s = new StringBuilder();
+                for (int y = 0; y < height; y++)
+                {
+                    for (int x = 0; x < width; x++)
                     {
-                        if(b[x,y])
+                        if (board[x, y])
                         {
                             s.Append("|X|");
                         }
@@ -28,12 +28,16 @@ public class Print_tablero
                             s.Append("___");
                         }
                     }
-            s.Append("\n");
+                    s.Append("\n");
+                }
+                Console.WriteLine(s.ToString());
+
+                //=================================================
+                // Calcular siguiente generación
+                //=================================================
+                board = Logica.CalcularSiguienteGeneracion(board);
+                Thread.Sleep(300);
+            }
         }
-    Console.WriteLine(s.ToString());
-    //=================================================
-    //Invocar método para calcular siguiente generación
-    //=================================================
-    Thread.Sleep(300);
-}
+    }
 }
