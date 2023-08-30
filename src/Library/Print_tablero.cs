@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace conway.equipo20;
 
-public class Leer_archivo
+public class Print_tablero
 {
     bool[,] b //variable que representa el tablero
     int width //variabe que representa el ancho del tablero
